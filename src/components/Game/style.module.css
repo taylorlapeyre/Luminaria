@@ -1,0 +1,35 @@
+.grid {
+  display: grid;
+  grid-gap: 10px;
+}
+
+.node {
+  background-size: cover;
+  background-image: url(https://proxy.duckduckgo.com/iu/?u=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Fthumb%2F4%2F47%2FCircle_arrow_right_font_awesome.svg%2F768px-Circle_arrow_right_font_awesome.svg.png&f=1)
+}
+
+.redNode {
+  background-color: maroon;
+  border-radius: 100%;
+}
+
+.blueNode {
+  background-color: lightskyblue;
+  border-radius: 100%;
+}
+
+.nodeRight {
+  transform: rotate(0deg);
+}
+
+.nodeUp {
+  transform: rotate(270deg);
+}
+
+.nodeLeft {
+  transform: rotate(180deg);
+}
+
+.nodeDown {
+  transform: rotate(90deg);
+}
