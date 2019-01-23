@@ -4,23 +4,21 @@ import style from "./style.module.css";
 import classnames from "classnames";
 import {
   Direction,
-  generateRandomDirectionGrid,
-  rotateLocationInGrid
-} from "../../model";
+  generateRandomNodeGrid,
+  rotateLocationInNodeGrid
+} from "../../lib/model";
 
 export default function App(props: { size: number }) {
-  const [directionGrid, setDirectionGrid] = useState(
-    generateRandomDirectionGrid(props.size)
-  );
+  const [nodeGrid, setNodeGrid] = useState(generateRandomNodeGrid(props.size));
 
   const red = usePlankton({
-    directionGrid,
-    speed: 100,
+    nodeGrid,
+    speed: 800,
     startingPosition: { row: 0, col: 0 }
   });
 
   const blue = usePlankton({
-    directionGrid,
+    nodeGrid,
     speed: 400,
     startingPosition: { row: 1, col: 1 }
   });
@@ -41,25 +39,34 @@ export default function App(props: { size: number }) {
     let nodes = [];
 
     for (let col = 0; col < props.size; col++) {
-      const direction = directionGrid[row][col];
+      const { direction } = nodeGrid[row][col];
+
+      // arrow icon is facing right
+      const degreeOffsets: { [key: number]: number } = {
+        [Direction.Up]: 270,
+        [Direction.UpRight]: 315,
+        [Direction.Right]: 0,
+        [Direction.DownRight]: 45,
+        [Direction.Down]: 90,
+        [Direction.DownLeft]: 135,
+        [Direction.Left]: 180,
+        [Direction.UpLeft]: 225
+      };
 
       nodes.push(
         <div
           key={"" + row + col}
           onClick={() => {
             stopGame();
-            setDirectionGrid(rotateLocationInGrid(directionGrid, row, col));
+            setNodeGrid(rotateLocationInNodeGrid(nodeGrid, { row, col }));
             startGame();
           }}
+          style={{ transform: `rotate(${degreeOffsets[direction]}deg)` }}
           className={classnames(style.node, {
             [style.redNode]:
               row === red.location.row && col === red.location.col,
             [style.blueNode]:
-              row === blue.location.row && col === blue.location.col,
-            [style.nodeRight]: direction === Direction.Right,
-            [style.nodeLeft]: direction === Direction.Left,
-            [style.nodeDown]: direction === Direction.Down,
-            [style.nodeUp]: direction === Direction.Up
+              row === blue.location.row && col === blue.location.col
           })}
         />
       );

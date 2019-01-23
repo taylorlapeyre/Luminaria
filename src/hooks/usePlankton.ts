@@ -1,15 +1,20 @@
 import { useState } from "react";
 import useInterval from "./useInterval";
-import { Location, Direction, getNextLocation } from "../model";
+import { Node, Location, Direction, getNextLocation } from "../lib/model";
+import { playSound } from "../lib/sound";
+import Notes from "../notes.json";
+
+// Hack to get TS from complaining about JSON
+let MyNotes: { [key: string]: number } = Notes
 
 export default ({
   speed,
   startingPosition,
-  directionGrid
+  nodeGrid
 }: {
   speed: number;
   startingPosition: Location;
-  directionGrid: Direction[][];
+  nodeGrid: Node[][];
 }) => {
   const [location, setLocation] = useState(startingPosition);
 
@@ -18,11 +23,14 @@ export default ({
     duration: speed,
     callback: () => {
       const { row, col } = location;
-      const direction = directionGrid[row][col];
+      const { direction, note } = nodeGrid[row][col];
+
+      playSound(MyNotes[note]);
+
       const nextLocation = getNextLocation(
         location,
         direction,
-        directionGrid.length - 1
+        nodeGrid.length
       );
       setLocation(nextLocation);
     }

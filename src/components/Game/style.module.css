@@ -17,19 +17,3 @@
   background-color: lightskyblue;
   border-radius: 100%;
 }
-
-.nodeRight {
-  transform: rotate(0deg);
-}
-
-.nodeUp {
-  transform: rotate(270deg);
-}
-
-.nodeLeft {
-  transform: rotate(180deg);
-}
-
-.nodeDown {
-  transform: rotate(90deg);
-}
