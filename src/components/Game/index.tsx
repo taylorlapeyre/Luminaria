@@ -45,7 +45,7 @@ export default function App(props: { size: number }) {
 
       nodes.push(
         <div
-          key={`${row}-${col}`}
+          key={"" + row + col}
           onClick={() => {
             stopGame();
             setDirectionGrid(rotateLocationInGrid(directionGrid, row, col));
