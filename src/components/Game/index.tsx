@@ -13,7 +13,7 @@ export default function App(props: { size: number }) {
 
   const red = usePlankton({
     nodeGrid,
-    speed: 800,
+    speed: 1600,
     startingPosition: { row: 0, col: 0 }
   });
 
@@ -22,16 +22,6 @@ export default function App(props: { size: number }) {
     speed: 400,
     startingPosition: { row: 1, col: 1 }
   });
-
-  const startGame = () => {
-    blue.start();
-    red.start();
-  };
-
-  const stopGame = () => {
-    blue.stop();
-    red.stop();
-  };
 
   let rows = [];
 
@@ -57,9 +47,7 @@ export default function App(props: { size: number }) {
         <div
           key={"" + row + col}
           onClick={() => {
-            stopGame();
             setNodeGrid(rotateLocationInNodeGrid(nodeGrid, { row, col }));
-            startGame();
           }}
           style={{ transform: `rotate(${degreeOffsets[direction]}deg)` }}
           className={classnames(style.node, {

@@ -35,7 +35,10 @@ export function generateRandomNodeGrid(size: number) {
     let row = [];
 
     for (let j = 0; j < size; j++) {
-      row.push({ direction: randomInt(5), note: getRandomPentatonicNote() });
+      row.push({
+        direction: Direction.UpRight,
+        note: getRandomPentatonicNote()
+      });
     }
 
     rows.push(row);

@@ -1,38 +1,21 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from 'react';
 
-export default ({ startImmediate, duration, callback }) => {
-  const [count, updateCount] = useState(0);
-  const [intervalState, setIntervalState] = useState(
-    startImmediate === undefined ? true : startImmediate
-  );
-  const [intervalId, setIntervalId] = useState(null);
+export default function useInterval(callback, delay) {
+  const savedCallback = useRef();
 
-  useEffect(
-    () => {
-      if (intervalState) {
-        const intervalId = setInterval(() => {
-          updateCount(count + 1);
-          callback && callback();
-        }, duration);
-        setIntervalId(intervalId);
-      }
+  // Remember the latest callback.
+  useEffect(() => {
+    savedCallback.current = callback;
+  });
 
-      return () => {
-        if (intervalId) {
-          clearInterval(intervalId);
-          setIntervalId(null);
-        }
-      };
-    },
-    [intervalState, count]
-  );
-  return {
-    intervalId,
-    start: () => {
-      setIntervalState(true);
-    },
-    stop: () => {
-      setIntervalState(false);
+  // Set up the interval.
+  useEffect(() => {
+    function tick() {
+      savedCallback.current();
     }
-  };
-};
+    if (delay !== null) {
+      let id = setInterval(tick, delay);
+      return () => clearInterval(id);
+    }
+  }, [delay]);
+}

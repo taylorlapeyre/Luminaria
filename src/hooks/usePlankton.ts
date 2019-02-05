@@ -5,7 +5,7 @@ import { playSound } from "../lib/sound";
 import Notes from "../notes.json";
 
 // Hack to get TS from complaining about JSON
-let MyNotes: { [key: string]: number } = Notes
+let MyNotes: { [key: string]: number } = Notes;
 
 export default ({
   speed,
@@ -17,11 +17,10 @@ export default ({
   nodeGrid: Node[][];
 }) => {
   const [location, setLocation] = useState(startingPosition);
+  const [isMoving, setIsMoving] = useState(true);
 
-  const { start, stop } = useInterval({
-    startImmediate: true,
-    duration: speed,
-    callback: () => {
+  useInterval(
+    () => {
       const { row, col } = location;
       const { direction, note } = nodeGrid[row][col];
 
@@ -33,8 +32,13 @@ export default ({
         nodeGrid.length
       );
       setLocation(nextLocation);
-    }
-  });
+    },
+    isMoving ? speed : null
+  );
 
-  return { start, stop, location };
+  return {
+    start: () => setIsMoving(true),
+    stop: () => setIsMoving(false),
+    location
+  };
 };
