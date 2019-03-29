@@ -23,8 +23,8 @@ function randomInt(upperBound: number) {
   return Math.floor(Math.random() * 10) % upperBound;
 }
 
-function getRandomPentatonicNote() {
-  const pentatonicScale = ["C5", "D5", "E5", "G5", "A5", "C6"];
+function getRandomHarmonicMinorNote() {
+  const pentatonicScale = ["C", "D", "Eb", "F", "G", "Ab", "B"];
   return pentatonicScale[randomInt(pentatonicScale.length)];
 }
 
@@ -37,7 +37,7 @@ export function generateRandomNodeGrid(size: number) {
     for (let j = 0; j < size; j++) {
       row.push({
         direction: Direction.UpRight,
-        note: getRandomPentatonicNote()
+        note: getRandomHarmonicMinorNote()
       });
     }
 

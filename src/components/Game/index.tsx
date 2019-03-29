@@ -1,3 +1,4 @@
+import Tone from "tone";
 import React, { Component, useState } from "react";
 import usePlankton from "../../hooks/usePlankton";
 import style from "./style.module.css";
@@ -8,19 +9,49 @@ import {
   rotateLocationInNodeGrid
 } from "../../lib/model";
 
+Tone.start();
+
+const redSynth = new Tone.Synth().toMaster();
+
+const blueSynth = new Tone.Synth().toMaster();
+
+const yellowSynth = new Tone.Synth().toMaster();
+
+const greenSynth = new Tone.Synth().toMaster();
+
 export default function App(props: { size: number }) {
   const [nodeGrid, setNodeGrid] = useState(generateRandomNodeGrid(props.size));
 
   const red = usePlankton({
+    synth: redSynth,
     nodeGrid,
-    speed: 1600,
+    speed: 400,
+    octave: 4,
     startingPosition: { row: 0, col: 0 }
   });
 
   const blue = usePlankton({
+    synth: blueSynth,
     nodeGrid,
-    speed: 400,
+    octave: 0,
+    speed: 1600,
     startingPosition: { row: 1, col: 1 }
+  });
+
+  const yellow = usePlankton({
+    synth: yellowSynth,
+    nodeGrid,
+    speed: 800,
+    octave: 3,
+    startingPosition: { row: 4, col: 0 }
+  });
+
+  const green = usePlankton({
+    synth: greenSynth,
+    nodeGrid,
+    speed: 1200,
+    octave: 2,
+    startingPosition: { row: 2, col: 4 }
   });
 
   let rows = [];
@@ -54,7 +85,12 @@ export default function App(props: { size: number }) {
             [style.redNode]:
               row === red.location.row && col === red.location.col,
             [style.blueNode]:
-              row === blue.location.row && col === blue.location.col
+              row === blue.location.row && col === blue.location.col,
+            [style.yellowNode]:
+              row === yellow.location.row && col === yellow.location.col,
+            [style.greenNode]:
+              row === green.location.row && col === green.location.col
+
           })}
         />
       );

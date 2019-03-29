@@ -17,3 +17,13 @@
   background-color: lightskyblue;
   border-radius: 100%;
 }
+
+.yellowNode {
+  background-color: yellow;
+  border-radius: 100%;
+}
+
+.greenNode {
+  background-color: green;
+  border-radius: 100%;
+}
